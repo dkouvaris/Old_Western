@@ -13,7 +13,7 @@
 #include <cmath>
 #include <ctime>
 
-const int NAME_SIZE = 8, ACC_SIZE = 7;
+const int NAME_SIZE = 20, ACC_SIZE = 7;
 const int REV_AMMO = 6, LR_AMMO = 1, CARAVAN_AMMO = 2;
 const double REV_ACC[7] = {0.2, 0.4, 0.36, 0.33, 0.32, 0.4, 0.5};
 const double LR_ACC[7] = {0, 126, 140, 120, 60, 60, 60};
