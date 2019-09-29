@@ -19,7 +19,7 @@ location::location(int xcord):location(){
   x = xcord;
 }
 
-//REQ: 'F' 'B' 'L' 'R'
+//REQ: 'E' 'W' 'N' 'S'
 //ENS: location change 1-5 unit in cardinal direction
 void location::move(char dirn, int dist){
   if(dist < 0 || dist > 5)
@@ -27,19 +27,19 @@ void location::move(char dirn, int dist){
     
   switch(dirn){
 
-  case 'F':
+  case 'E':
     x = x + dist;
     break;
 
-  case 'B':
+  case 'W':
     x = x - dist;
     break;
 
-  case 'L':
+  case 'N':
     y = y + dist;
     break;
 
-  case 'R':
+  case 'S':
     y = y - dist;
     break;
 
@@ -169,19 +169,19 @@ void player::aim(player enemy){
 
 //move player, expend turn must be F,B,L,R
  void player::move(char dir, int dist, player enemy){
-  if(dir != 'F'&& dir != 'B'&& dir != 'L'&& dir != 'R')
+  if(dir != 'E'&& dir != 'W'&& dir != 'N'&& dir != 'S')
     std::cout << name <<" walked in a circle for some reason..." << std::endl;
   else{
     loc.move(dir,dist);
     std::cout << name << " took " << dist << " steps ";
-    if(dir == 'F')
-      std::cout << "forwards." << std::endl;
-    if(dir == 'B')
-      std::cout << "backwards." << std::endl;
-    if(dir == 'L')
-      std::cout << "to the right." << std::endl;
-    if(dir == 'R')
-      std::cout << "to the left." << std::endl;  
+    if(dir == 'E')
+      std::cout << "to the east." << std::endl;
+    if(dir == 'W')
+      std::cout << "to the west." << std::endl;
+    if(dir == 'N')
+      std::cout << "to the north." << std::endl;
+    if(dir == 'S')
+      std::cout << "to the south." << std::endl;  
   }
   std::cout << name <<"'s swift movements make them harder to hit" << std::endl;
 
@@ -243,6 +243,8 @@ bool player::checkHit(player enemy)const{
   double dist = enemy.loc.getDistance(loc);
   int dmod = dist/5;
   double hitCheck = dist*gun.getAccuracy(dmod);
+  if(gun.checkType()=='l')
+    hitCheck = gun.getAccuracy(dmod)/dist;
   double roll = rand()%20+1;
   if(took_aim)
     roll = roll + 10;
@@ -251,8 +253,8 @@ bool player::checkHit(player enemy)const{
   hit = ( roll > hitCheck);
 
 
-  std::cout << __FUNCTION__ << " " << __LINE__ << " " << roll << " " << dist
-            << " " << dmod << " " << hitCheck  << std::endl;
+  //  std::cout << __FUNCTION__ << " " << __LINE__ << " " << roll << " " << dist
+  //          << " " << dmod << " " << hitCheck  << std::endl;
   return hit;
 }
 
@@ -331,10 +333,11 @@ void singleplayer(){
     player sheriff(pname,choice,-10);
     sheriff.your_turn();
     std::cout << 
-      "Great Sheriff, alls that's left is to walk to ten" << '\n' <<
-      "paces and begin the duel. By the way, the bandits" << '\n' << 
-      "have a strange sense of honor around these parts"  << '\n' <<
-      "and will always allow you the first move"          << '\n' << std::endl;
+      "Great Sheriff, all's that's left is to walk to ten"         << '\n' <<
+      "paces to the west  and begin the duel."                     << '\n' << 
+      "By the way, the bandits have a strange sense of honor"      << '\n' <<
+      "around these parts and will always allow you the first move"<< '\n' << std::endl;
+
 
     //LOOP 2 BEGINS
     while((sheriff.stillAlive()) && (bandit.stillAlive())){     
@@ -352,7 +355,7 @@ void singleplayer(){
 	case 'm':
 	  std::cout << 
 	    "You can take up to five steps, which direction would"               << '\n' << 
-	    "you like to move? forward(F), backwards(B), left(L), right(R): " << std::endl;
+	    "you like to move? East(E), West(W), North(N), South(S): " << std::endl;
 	  std::cin >> direction;
 	  std::cout << "How many steps (1-5): " << std::endl;
 	  std::cin >> steps; 
@@ -454,8 +457,8 @@ void multiplayer(){
     player player2(p2name, p2choice, 10);
 
     std::cout << 
-      "Alright you two. " << p1name << " walk 10 paces backwards, and " << '\n' << p2name <<
-      "walk 10 paces forwards and begin the duel."                      << '\n' << 
+      "Alright you two. " << p1name << " walk 10 paces West, and " << '\n' << p2name <<
+      " walk 10 paces East and begin the duel."                      << '\n' << 
       "I'll flip a coin to see who goes first."                         << '\n' << std::endl;
 
     int firstTurn = (rand()%2 + 1);
@@ -485,7 +488,7 @@ void multiplayer(){
 	case 'm':
 	  std::cout << 
 	    "You can take up to five steps, which direction would"               << '\n' << 
-	    "you like to move? forward(F), backwards(B), left(L), right(R): " << std::endl;
+	    "you like to move? East(E), West(W), North(N), South(S): " << std::endl;
 	  std::cin >> direction;
 	  std::cout << "How many steps (1-5): " << std::endl;
 	  std::cin >> steps; 
@@ -524,7 +527,7 @@ void multiplayer(){
 	case 'm':
 	  std::cout << 
 	    "You can take up to five steps, which direction would"               << '\n' << 
-	    "you like to move? forward(B), backwards(F), left(R), right(L): " << std::endl;
+	    "you like to move? East(E), West(W), North(N), South(S): " << std::endl;
 	  std::cin >> direction;
 	  std::cout << "How many steps (1-5): " << std::endl;
 	  std::cin >> steps; 
@@ -558,13 +561,13 @@ void multiplayer(){
     if(player1.stillAlive()){
       std::cout << 
 	"Guess you'll live another day " << p1name       << '\n' <<
-	"Does anybody else want to a duel today?(y/n): " << std::endl;
+	"Would you like a rematch?(y/n): " << std::endl;
       std::cin >> play;
     }
     else{
       std::cout << 
         "Looks like " << p2name << " can postpone their funeral" << '\n' <<
-	"Does anybody else want to duel today?(y/n): "           << '\n' << std::endl;
+	"Would you like a rematch?(y/n): "           << '\n' << std::endl;
       std::cin >> play;
     }
   }//LOOP 1 ENDS

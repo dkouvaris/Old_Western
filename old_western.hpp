@@ -15,9 +15,9 @@
 
 const int NAME_SIZE = 8, ACC_SIZE = 7;
 const int REV_AMMO = 6, LR_AMMO = 1, CARAVAN_AMMO = 2;
-const double REV_ACC[7] = {0, 0.4, 0.2, 0.33, 0.25, 0.4, 0.5};
-const double LR_ACC[7] = {0, 3.6, 1.4, 0.53, 0.1, 0.1, 0.1};
-const double CG_ACC[7] = {0, 1.6, 1.2, 1.06, 0.9, 0.8, 0.66};
+const double REV_ACC[7] = {0.2, 0.4, 0.36, 0.33, 0.32, 0.4, 0.5};
+const double LR_ACC[7] = {0, 126, 140, 120, 60, 60, 60};
+const double CG_ACC[7] = {1.0, 1.2, 1.1, 1.06, 0.9, 0.85, 0.83};
 
 
 //////////////
